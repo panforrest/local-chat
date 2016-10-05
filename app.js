@@ -14,7 +14,7 @@ var dbUrl = 'mongodb://localhost/local-chat'
 mongoose.connect(dbUrl, function(err, res){
 
     if (err) {
-        console.log('dataBase connection failed')
+        console.log('dataBase connection failed: '+err)
     }
     else{
     console.log('connected successfully to: '+dbUrl)   
