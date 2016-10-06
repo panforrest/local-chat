@@ -13,6 +13,17 @@ router.get('/:resource', function(req, res, next){
 
 	var resource = req.params.resource
 	var controller = controllers[resource]
+
+    if (controller == null) {
+    	res.json({
+    		confirmation: 'fail',
+            message: 'incorrect resource. Check your spelling dummy!'
+    	})
+
+    	return
+    }
+
+
 	controller.get(null)
 	.then(function(results){
    	res.json({
