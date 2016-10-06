@@ -23,7 +23,6 @@ router.get('/:resource', function(req, res, next){
     	return
     }
 
-
 	controller.get(null)
 	.then(function(results){
    	res.json({
@@ -41,97 +40,68 @@ router.get('/:resource', function(req, res, next){
 		return			
 	})
 
-
-
-	// if (resource == 'profile') {
-
-	// 	ProfileController.get(null)
-	// 	.then(function(results){
- //       	res.json({
- //        	confirmation: 'success',
- //        		results: results
- //        	})
- //       	    return
-	// 	})
-	// 	.catch(function(err){
- //    		res.json({
- //    			confirmation: 'fail',
- //    			message: err
- //    		})
-
- //    		return			
-	// 	})
-
- //        // Profile.find(null, function(err, results){
- //        // 	if (err) {
- //        // 		res.json({
- //        // 			confirmation: 'fail',
- //        // 			message: err
- //        // 		})
-
- //        // 		return
- //        // 	} 
-
- //        // 	res.json({
- //        // 		confirmation: 'success',
- //        // 		results: results
- //        // 	})
-
- //        // 	return
- //        // })
-
-	// }
-
-	// if (resource == 'place') {
-
-	// 	PlaceController.get(null)
-	// 	.then(function(results){
- //       	res.json({
- //        	confirmation: 'success',
- //        		results: results
- //        	})
- //       	    return
-	// 	})
-	// 	.catch(function(err){
- //    		res.json({
- //    			confirmation: 'fail',
- //    			message: err
- //    		})
-
- //    		return			
-	// 	})
-	// }		
-
 })
 
 router.get('/:resource/:id', function(req, res, next){
 	var resource = req.params.resource
     var id = req.params.id
 
+	var controller = controllers[resource]
+
     if (resource == 'profile') {
+	    if (controller == null) {
+	    	res.json({
+	    		confirmation: 'fail',
+	            message: 'incorrect resource. Check your spelling dummy!'
+	    	})
 
-        Profile.findById(id, function(err, result){
-        	if (err) {
-        		res.json({
-	        		confirmation: 'fail',
-	        		message: err
-	        	})
-	        	return	
-        	}
+	    	return
+	    }
 
-	        res.json({
-	        	confirmation: 'success',
-	        	result: result
-	        })
+		controller.getById(id)
+		.then(function(result){
+	   	res.json({
+	    	confirmation: 'success',
+	    		result: result
+	    	})
+	   	    return
+		})
+		.catch(function(err){
+			res.json({
+				confirmation: 'fail',
+				message: err
+			})
 
-        return
-
-
-        })
-
-
-
+			return			
+		}) 
     }
+
+
+
+    // if (resource == 'profile') {
+
+    //     Profile.findById(id, function(err, result){
+    //     	if (err) {
+    //     		res.json({
+	   //      		confirmation: 'fail',
+	   //      		message: err
+	   //      	})
+	   //      	return	
+    //     	}
+
+	   //      res.json({
+	   //      	confirmation: 'success',
+	   //      	result: result
+	   //      })
+
+    //     return
+
+
+    //     })
+
+
+
+    // }
 
 })
 

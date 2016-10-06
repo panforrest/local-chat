@@ -18,7 +18,16 @@ module.exports = {
 	},
 
 	getById: function(id){
+		return new Promise(function(resolve, reject){
+			Profile.findById(id, function(err, profile){      //param is to be replaced by id
+				if (err){
+					reject(err)
+					return
+				}
 
+				resolve(profile)
+			})
+		})
 	},
 
 	post: function(params){

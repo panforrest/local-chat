@@ -18,7 +18,16 @@ module.exports = {
 	},
 
 	getById: function(id){
+		return new Promise(function(resolve, reject){
+			Place.findById(params, function(err, place){
+				if (err){
+					reject(err)
+					return
+				}
 
+				resolve(place)
+			})
+		})
 	},
 
 	post: function(params){
