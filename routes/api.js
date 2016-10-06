@@ -48,7 +48,7 @@ router.get('/:resource/:id', function(req, res, next){
 
 	var controller = controllers[resource]
 
-    if (resource == 'profile') {
+    // if (resource == 'profile') {
 	    if (controller == null) {
 	    	res.json({
 	    		confirmation: 'fail',
@@ -69,12 +69,12 @@ router.get('/:resource/:id', function(req, res, next){
 		.catch(function(err){
 			res.json({
 				confirmation: 'fail',
-				message: err
+				message: 'Not Found'
 			})
 
 			return			
 		}) 
-    }
+    // }
 
 
 

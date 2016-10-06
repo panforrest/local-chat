@@ -12,6 +12,7 @@ module.exports = {
 				}
 
 				resolve(places)
+				return
 			})
 		})
 
@@ -26,6 +27,7 @@ module.exports = {
 				}
 
 				resolve(place)
+				return
 			})
 		})
 	},
