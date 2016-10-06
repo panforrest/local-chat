@@ -48,82 +48,81 @@ router.get('/:resource/:id', function(req, res, next){
 
 	var controller = controllers[resource]
 
-    // if (resource == 'profile') {
-	    if (controller == null) {
-	    	res.json({
-	    		confirmation: 'fail',
-	            message: 'incorrect resource. Check your spelling dummy!'
-	    	})
 
-	    	return
-	    }
+    if (controller == null) {
+    	res.json({
+    		confirmation: 'fail',
+            message: 'incorrect resource. Check your spelling dummy!'
+    	})
 
-		controller.getById(id)
-		.then(function(result){
-	   	res.json({
-	    	confirmation: 'success',
-	    		result: result
-	    	})
-	   	    return
+    	return
+    }
+
+	controller.getById(id)
+	.then(function(result){
+   	res.json({
+    	confirmation: 'success',
+    		result: result
+    	})
+   	    return
+	})
+	.catch(function(err){
+		res.json({
+			confirmation: 'fail',
+			message: 'Not Found'
 		})
-		.catch(function(err){
-			res.json({
-				confirmation: 'fail',
-				message: 'Not Found'
-			})
 
-			return			
-		}) 
-    // }
-
-
-
-    // if (resource == 'profile') {
-
-    //     Profile.findById(id, function(err, result){
-    //     	if (err) {
-    //     		res.json({
-	   //      		confirmation: 'fail',
-	   //      		message: err
-	   //      	})
-	   //      	return	
-    //     	}
-
-	   //      res.json({
-	   //      	confirmation: 'success',
-	   //      	result: result
-	   //      })
-
-    //     return
-
-
-    //     })
-
-
-
-    // }
+		return			
+	}) 
 
 })
 
 router.post('/:resource', function(req, res, next){
 	var resource = req.params.resource
+	var controller = controllers[resource]
 
-	if (resource == 'profile') {
-		Profile.create(req.body, function(err, result){
-			if (err) {
-				res.json({
-					confirmation: 'fail',
-					message: err
-				})
-				return
-			}
+    if (controller == null) {
+    	res.json({
+    		confirmation: 'fail',
+            message: 'incorrect resource. Check your spelling dummy!'
+    	})
 
-			res.json({
-				confirmation: 'success',
-				result: result
-			})
+    	return
+    }
+
+	controller.post(req.body)
+	.then(function(result){
+   	res.json({
+    	confirmation: 'success',
+    		result: result
+    	})
+   	    return
+	})
+	.catch(function(err){
+		res.json({
+			confirmation: 'fail',
+			message: 'Not Found'
 		})
-	}
+
+		return			
+	}) 
+
+	// if (resource == 'profile') {
+	// 	Profile.create(req.body, function(err, result){
+	// 		if (err) {
+	// 			res.json({
+	// 				confirmation: 'fail',
+	// 				message: err
+	// 			})
+	// 			return
+	// 		}
+
+	// 		res.json({
+	// 			confirmation: 'success',
+	// 			result: result
+	// 		})
+	// 	})
+	// }
 })
 
 router.put('/:resource/:id', function(req, res, next){

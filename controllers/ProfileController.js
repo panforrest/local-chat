@@ -27,13 +27,24 @@ module.exports = {
 				}
 
 				resolve(profile)
-				return
+				
 			})
 		})
 	},
 
 	post: function(params){
+		return new Promise(function(resolve, reject){
+			Profile.create(params, function(err, profile){
+				if (err){
+					reject(err)
+					return
+				}
 
+				resolve(profile)
+				
+			})			
+
+		})		
 	},
 
 	put: function(id, params){

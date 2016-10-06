@@ -12,7 +12,7 @@ module.exports = {
 				}
 
 				resolve(places)
-				return
+				
 			})
 		})
 
@@ -20,20 +20,30 @@ module.exports = {
 
 	getById: function(id){
 		return new Promise(function(resolve, reject){
-			Place.findById(params, function(err, place){
+			Place.findById(id, function(err, place){
 				if (err){
 					reject(err)
 					return
 				}
 
 				resolve(place)
-				return
+
 			})
 		})
 	},
 
 	post: function(params){
+		return new Promise(function(resolve, reject){
+			Place.create(params, function(err, place){    //should be 'params' not 'req.body'
+				if (err){
+					reject(err)
+					return
+				}
 
+				resolve(place)
+
+			})
+		})
 	},
 
 	put: function(id, params){
