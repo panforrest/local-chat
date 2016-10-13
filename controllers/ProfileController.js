@@ -12,7 +12,15 @@ module.exports = {
 					return
 				}
 
+				var list = []
+				for (i=0; i<profiles.length; i++) {
+                    var profile = profiles[i]
+                    list.push(profile.summary())
+				}
+
+                profiles = list
 				resolve(profiles)
+
 				return
 			})
 		})
@@ -27,7 +35,7 @@ module.exports = {
 					return
 				}
 
-				resolve(profile)
+				resolve(profile.summary())
 				
 			})
 		})
@@ -47,7 +55,7 @@ module.exports = {
 					return
 				}
 
-				resolve(profile)
+				resolve(profile.summary())
 				
 			})			
 
