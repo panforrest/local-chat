@@ -26,10 +26,19 @@ router.get('/:action', function(req, res, next){
 		}
 
 		var userId = req.session.user
-		res.json({
-			confirmation: 'success',
-			user: userId
-		})
+		ProfileController.getById(userId)
+        .then(function(profile){
+			res.json({
+				confirmation: 'success',
+				user: profile
+			})        	
+        })
+        .catch(function(err){
+			res.json({
+				confirmation: 'fail',
+				user: err
+			})         	
+        })
 	} 
 })
 
