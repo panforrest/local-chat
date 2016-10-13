@@ -3,6 +3,36 @@ var router = express.Router();
 var ProfileController = require('../controllers/ProfileController')
 var bcrypt = require('bcrypt')
 
+router.get('/:action', function(req, res, next){
+	var action = req.params.action
+	if (action == 'currentuser'){
+		if (req.session == null) {
+            req.json({
+            	confirmation: 'fail',
+            	message: 'User not logged in'
+            })
+
+            return
+		}
+
+		if (req.session.user == null) {
+			res.json({
+				confirmation: 'fail',
+				message: 'User not logged in'
+			})
+
+			return
+
+		}
+
+		var userId = req.session.user
+		res.json({
+			confirmation: 'success',
+			user: userId
+		})
+	} 
+})
+
 router.post('/:action', function(req, res, next){    //not ('/:resource'... because this is not REST
     var action = req.params.action
 
@@ -33,6 +63,7 @@ router.post('/:action', function(req, res, next){    //not ('/:resource'... beca
             	return
             }
 
+            req.session.user = profile._id
 
 
             res.json({
@@ -46,7 +77,14 @@ router.post('/:action', function(req, res, next){    //not ('/:resource'... beca
             // 	profile: profile
             // })
     	})
-    	.catch()
+    	.catch(function(err){
+        	res.json({
+        		confirmation:'fail',
+        		message:err
+        	})
+
+        	return    		
+    	})
         
     }
 })
