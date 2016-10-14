@@ -54,6 +54,28 @@ router.get('/:action', function(req, res, next){
 router.post('/:action', function(req, res, next){    //not ('/:resource'... because this is not REST
     var action = req.params.action
 
+	if (action == 'register') {
+        ProfileController.post(req.body)
+		.then(function(profile){
+
+			req.session.user = profile.id
+
+		   	res.json({
+		    	confirmation: 'success',
+		    	result: profile
+		    })
+		   	return
+		})
+		.catch(function(err){
+			res.json({
+				confirmation: 'fail',
+				message: err
+			})
+
+			return			
+		}) 
+	}
+
     if (action == 'login') {
     	var email = req.body.email
     	ProfileController.get({email:email}, true)
