@@ -34,6 +34,11 @@ module.exports = {
 
 	post: function(params){
 		return new Promise(function(resolve, reject){
+            // query Google Maps to get lat/lng
+            // https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCJrs8oxVQPDRzLUjjsVpQELHns1vjcH-k            
+
+
+
 			Place.create(params, function(err, place){    //should be 'params' not 'req.body'
 				if (err){
 					reject(err)
