@@ -1,5 +1,6 @@
 var Place = require('../models/Place')
 var Promise = require('bluebird')
+var superagent = require('superagent')
 
 module.exports = {
 
@@ -34,20 +35,67 @@ module.exports = {
 
 	post: function(params){
 		return new Promise(function(resolve, reject){
+			console.log('TEST: ')
             // query Google Maps to get lat/lng
             // https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCJrs8oxVQPDRzLUjjsVpQELHns1vjcH-k            
 
+            //  1600+Amphitheatre+Parkway,+Mountain+View,+CA
+            // var body = req.body
 
+            //make a googel api request
+            var address = params.address+', '+params.city+', '+params.state
+            address = address.replace(' ', '+')
 
-			Place.create(params, function(err, place){    //should be 'params' not 'req.body'
-				if (err){
-					reject(err)
+            console.log('ADDRESS: '+address)
+			
+			var url = 'https://maps.googleapis.com/maps/api/geocode/json'
+
+			var geoParams = {
+				key: 'AIzaSyCJrs8oxVQPDRzLUjjsVpQELHns1vjcH-k',
+				address: address
+			}  
+
+			superagent
+			.get(url)
+			.query(geoParams)
+			.set('Accept', 'text/json')
+			.end(function(err, response){
+				if (err) {
+                    reject(err)
 					return
 				}
 
-				resolve(place)
+				var results = response.body.results
+				console.log('RESULTS: '+JSON.stringify(results))
+				var locationInfo = results[0]
+				var geometry = locationInfo.geometry
+				var latLng = geometry.location
 
+				// res.send(latLng)
+     
+                params['geo'] = [latLng.lat, latLng.lng]
+
+				Place.create(params, function(err, place){    //should be 'params' not 'req.body'
+					if (err){
+						reject(err)
+						return
+					}
+
+					resolve(place)
+
+				})				
 			})
+
+
+			// Place.create(params, function(err, place){    //should be 'params' not 'req.body'
+			// 	if (err){
+			// 		reject(err)
+			// 		return
+			// 	}
+
+			// 	resolve(place)
+
+			// })
 		})
 	},
 
