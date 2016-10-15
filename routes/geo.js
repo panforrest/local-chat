@@ -22,7 +22,12 @@ router.get('/', function(req, res, next){      //not need ('/:address'
 			return
 		}
 
-		res.send(response.body)
+		var results = response.body.results
+		var locationInfo = results[0]
+		var geometry = locationInfo.geometry
+		var latLng = geometry.location
+
+		res.send(latLng)
 	})
 
 	// res.json({
