@@ -11,7 +11,7 @@ router.get('/', function(req, res, next){      //not need ('/:address'
 
 	var params = {
 		key: 'AIzaSyCJrs8oxVQPDRzLUjjsVpQELHns1vjcH-k',
-		address: '1600+Amphitheatre+Parkway,+Mountain+View,+CA'
+		address: address
 	}  
 
 	superagent
