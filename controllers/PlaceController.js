@@ -51,7 +51,7 @@ module.exports = {
 			var url = 'https://maps.googleapis.com/maps/api/geocode/json'
 
 			var geoParams = {
-				key: 'AIzaSyCJrs8oxVQPDRzLUjjsVpQELHns1vjcH-k',
+				key: process.env.GOOGLE_MAP_API,   //'AIzaSyCJrs8oxVQPDRzLUjjsVpQELHns1vjcH-k',
 				address: address
 			}  
 

@@ -6,21 +6,22 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var sessions = require('client-sessions')
+require('dotenv').config()
 
 var routes = require('./routes/index');
 var api = require('./routes/api');
 var account = require('./routes/account');
 var geo = require('./routes/geo');
 
-var dbUrl = 'mongodb://localhost/local-chat'
+//var dbUrl = 'mongodb://localhost/local-chat'
 
-mongoose.connect(dbUrl, function(err, res){
-
+// mongoose.connect(dbUrl, function(err, res){
+mongoose.connect(process.env.MONGO_DB, function(err, res){
     if (err) {
         console.log('dataBase connection failed: '+err)
     }
     else{
-    console.log('connected successfully to: '+dbUrl)   
+    console.log('connected successfully to: '+process.env.MONGO_DB)   
     }
 
 })
