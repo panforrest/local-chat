@@ -1,14 +1,34 @@
 var express = require('express')
 var router = express.Router()
+var superagent = require('superagent')
 
-router.get('/', function(req, res, next){      //not ('/:address'
+router.get('/', function(req, res, next){      //not need ('/:address'
 
 	var address = req.query.address
 
-	res.json({
-		confirmation: 'success',
-		address: address 
+	//make a googel api request
+	var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCJrs8oxVQPDRzLUjjsVpQELHns1vjcH-k'  
+
+	superagent
+	.get(url)
+	.query(null)
+	.set('Accept', 'text/json')
+	.end(function(err, response){
+		if (err) {
+			res.json({
+				confirmation: 'fail',
+				message: err
+			})
+			return
+		}
+
+		res.send(response.body)
 	})
+
+	// res.json({
+	// 	confirmation: 'success',
+	// 	address: address 
+	// })
 
 })
 
