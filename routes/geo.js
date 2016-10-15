@@ -7,11 +7,16 @@ router.get('/', function(req, res, next){      //not need ('/:address'
 	var address = req.query.address
 
 	//make a googel api request
-	var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCJrs8oxVQPDRzLUjjsVpQELHns1vjcH-k'  
+	var url = 'https://maps.googleapis.com/maps/api/geocode/json'
+
+	var params = {
+		key: 'AIzaSyCJrs8oxVQPDRzLUjjsVpQELHns1vjcH-k',
+		address: '1600+Amphitheatre+Parkway,+Mountain+View,+CA'
+	}  
 
 	superagent
 	.get(url)
-	.query(null)
+	.query(params)
 	.set('Accept', 'text/json')
 	.end(function(err, response){
 		if (err) {
