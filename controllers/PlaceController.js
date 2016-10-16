@@ -4,7 +4,7 @@ var superagent = require('superagent')
 
 module.exports = {
 
-	get: function(params){
+	get: function(params, isRaw){
 		return new Promise(function(resolve, reject){
 			Place.find(params, function(err, places){
 				if (err){
@@ -12,8 +12,17 @@ module.exports = {
 					return
 				}
 
-				resolve(places)
-				
+				if (isRaw == true) {
+				    resolve(places)	
+				    return
+				}
+
+				var list = []
+				for (i=0; i<places.length; i++){
+					var place = places[i]
+					list.push(place.summary()) 
+				}				
+				resolve(list)
 			})
 		})
 
@@ -27,7 +36,7 @@ module.exports = {
 					return
 				}
 
-				resolve(place)
+				resolve(place.summary())
 
 			})
 		})
@@ -81,7 +90,7 @@ module.exports = {
 						return
 					}
 
-					resolve(place)
+					resolve(place.summary())
 
 				})				
 			})
@@ -107,7 +116,7 @@ module.exports = {
 					return
 				}
 
-				resolve(place)
+				resolve(place.summary())
 			})
 		})
 	}
