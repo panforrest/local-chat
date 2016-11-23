@@ -6,7 +6,10 @@ module.exports = {
 
 	get: function(params, isRaw){
 		return new Promise(function(resolve, reject){
-			Profile.find(params, function(err, profiles){
+            var sortOrder = (params.sort == 'asc') ? 1: -1
+			delete params['sort']
+			
+			Profile.find(params, null, {sort:{timestamp: sortOrder}}, function(err, profiles){
 				if (err){
 					reject(err)
 					return

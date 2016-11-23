@@ -5,7 +5,10 @@ module.exports = {
 
 	get: function(params, isRaw){
 		return new Promise(function(resolve, reject){
-			Comment.find(params, function(err, comments){
+            var sortOrder = (params.sort == 'asc') ? 1: -1
+			delete params['sort']
+
+			Comment.find(params, null, {sort:{timestamp: sortOrder}}, function(err, comments){
                 if (err) {
                 	// res.json({
 	                // 	confirmation: 'fail',
