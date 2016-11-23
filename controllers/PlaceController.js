@@ -7,7 +7,8 @@ module.exports = {
 
 	get: function(params, isRaw){
 		return new Promise(function(resolve, reject){
-			Place.find(params, function(err, places){
+
+			Place.find(params, null, {sort:{timestamp: -1}}, function(err, places){
 				if (err){
 					reject(err)
 					return
