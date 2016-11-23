@@ -1,47 +1,36 @@
 var express = require('express')
 var router = express.Router()
-var superagent = require('superagent')
+var GoogleMapsAPI = require('googlemaps')
 
-router.get('/', function(req, res, next){      //not need ('/:address'
+router.get('/', function(req, res, next){
 
-	var address = req.query.address
+	var publicConfig = {
+	  key: process.env.GOOGLE_MAP_API,
+	  stagger_time:       1000, // for elevationPath 
+	  encode_polylines:   false,
+	  secure:             true, // use https 
+	  //proxy:              'http://127.0.0.1:9999' // optional, set a proxy for HTTP requests 
+	};
 
-	//make a googel api request
-	var url = 'https://maps.googleapis.com/maps/api/geocode/json'
+	var gmAPI = new GoogleMapsAPI(publicConfig);
 
-	var params = {
-		key: 'AIzaSyCJrs8oxVQPDRzLUjjsVpQELHns1vjcH-k',
-		address: address
-	}  
 
-	superagent
-	.get(url)
-	.query(params)
-	.set('Accept', 'text/json')
-	.end(function(err, response){
-		if (err) {
-			res.json({
-				confirmation: 'fail',
-				message: err
-			})
-			return
-		}
+	var geocodeParams = {
+	    address:    "27 East 28th Street, New York, NY",
+        language:   "en"
+	};
 
-		var results = response.body.results
-		var locationInfo = results[0]
-		var geometry = locationInfo.geometry
-		var latLng = geometry.location
 
-		res.send(latLng)
-	})
+	gmAPI.geocode(geocodeParams, function(err, result){
+	  console.log('MAPS API REQ: '+result);
+	  	res.json({
+		  confirmation: result //'success'
+	  })
+	});
 
-	// res.json({
-	// 	confirmation: 'success',
-	// 	address: address 
-	// })
+
+
 
 })
-
-
 
 module.exports = router
