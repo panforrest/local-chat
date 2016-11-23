@@ -8,10 +8,11 @@ module.exports = {
 	get: function(params, isRaw){
 		return new Promise(function(resolve, reject){
 
-			var sortOrder = -1
-			if (params.sort == 'asc')
-				sortOrder = 1
+			// var sortOrder = -1
+			// if (params.sort == 'asc')
+			// 	sortOrder = 1
 
+            var sortOrder = (params.sort == 'asc') ? 1: -1
 			delete params['sort']
 
 			Place.find(params, null, {sort:{timestamp: sortOrder}}, function(err, places){
