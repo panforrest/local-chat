@@ -16,7 +16,6 @@ var PlaceSchema = new mongoose.Schema({
 })
 
 PlaceSchema.methods.summary = function(){
-
     var summary = {
     	name: this.name,
     	description: this.description,
@@ -25,7 +24,8 @@ PlaceSchema.methods.summary = function(){
         city: this.city,
         state: this.city,
         geo: this.geo,
-        timestamp: this.timestamp
+        timestamp: this.timestamp,
+        id: this._id
     }
 
 

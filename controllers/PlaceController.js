@@ -1,6 +1,7 @@
 var Place = require('../models/Place')
 var Promise = require('bluebird')
-var superagent = require('superagent')
+// var superagent = require('superagent')
+var Request = require('../utils/Request')
 
 module.exports = {
 
@@ -62,25 +63,18 @@ module.exports = {
 			var geoParams = {
 				key: process.env.GOOGLE_MAP_API,   //'AIzaSyCJrs8oxVQPDRzLUjjsVpQELHns1vjcH-k',
 				address: address
-			}  
+			} 
 
-			superagent
-			.get(url)
-			.query(geoParams)
-			.set('Accept', 'text/json')
-			.end(function(err, response){
-				if (err) {
-                    reject(err)
-					return
-				}
+			Request.get(url, geoParams, function(err, response){
+                if (err) {
+                	reject(err)
+                	return
+                }
 
-				var results = response.body.results
-				console.log('RESULTS: '+JSON.stringify(results))
+                var results = response.results
 				var locationInfo = results[0]
 				var geometry = locationInfo.geometry
 				var latLng = geometry.location
-
-				// res.send(latLng)
      
                 params['geo'] = [latLng.lat, latLng.lng]
 
@@ -94,6 +88,39 @@ module.exports = {
 
 				})				
 			})
+
+			// }) 
+
+			// superagent
+			// .get(url)
+			// .query(geoParams)
+			// .set('Accept', 'text/json')
+			// .end(function(err, response){
+			// 	if (err) {
+   //                  reject(err)
+			// 		return
+			// 	}
+
+			// 	var results = response.body.results
+			// 	console.log('RESULTS: '+JSON.stringify(results))
+			// 	var locationInfo = results[0]
+			// 	var geometry = locationInfo.geometry
+			// 	var latLng = geometry.location
+
+			// 	// res.send(latLng)
+     
+   //              params['geo'] = [latLng.lat, latLng.lng]
+
+			// 	Place.create(params, function(err, place){    //should be 'params' not 'req.body'
+			// 		if (err){
+			// 			reject(err)
+			// 			return
+			// 		}
+
+			// 		resolve(place.summary())
+
+			// 	})				
+			// })
 
 
 			// Place.create(params, function(err, place){    //should be 'params' not 'req.body'
