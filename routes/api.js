@@ -18,13 +18,13 @@ router.get('/:resource', function(req, res, next){
     if (controller == null) {
     	res.json({
     		confirmation: 'fail',
-            message: 'incorrect resource. Check your spelling dummy!'
+            message: 'Incorrect Resource.'
     	})
 
     	return
     }
 
-	controller.get(null, false)
+	controller.get(req.query, false)    //(null, false)
 	.then(function(results){
    	res.json({
     	confirmation: 'success',

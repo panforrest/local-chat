@@ -23,6 +23,7 @@ PlaceSchema.methods.summary = function(){
     	type: this.type,
         city: this.city,
         state: this.city,
+        zip: this.zip,
         geo: this.geo,
         timestamp: this.timestamp,
         id: this._id
